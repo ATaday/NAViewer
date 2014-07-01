@@ -7,6 +7,7 @@ app = Flask(__name__)
 mongo = PyMongo(app)
 
 @app.route('/', methods=['GET', 'POST'])
+
 def saveData():
 
     if request.method == 'POST':
@@ -28,16 +29,43 @@ def saveData():
     return response
 
 @app.route('/view', methods=['GET'])
+
 def index():
 
-    activity = mongo.db.netactivity.find()
+    activity = mongo.db.netactivity.find() 
+    size_total = 0 
+    html = '<table width="80%"><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
 
-    html = '<table width="80%">'
     for record in activity:
-        html = html + '<tr>'
-        html = html + '<td>%s</td>' % record['proto']
-        html = html + '<td>%s</td>' % record['source']
-        html = html + '<td>%s</td>' % record['dest']
+        html = html + '<tr>' 
+	html = html + '<td>%s</td>' % record['protocol']
+	html = html + '<td>%s</td>' % record['source address']
+        html = html + '<td>%s</td>' % record['destination address']
+	html = html + '<td>%s</td>' % record['destination port']
+        html = html + '<td>%s</td>' % record['packet size']
+        html = html + '</tr>'
+    html = html + '</table>'
+
+    response = html
+
+    return response
+
+@app.route('/length', methods=['GET'])
+
+def size():
+
+    activity = mongo.db.netactivity.find() 
+
+    size_total = 0 
+	
+    html = '<table width="80%"><td><u><b>Total Size</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Port</b></u></td>'
+
+    for record in activity:
+        html = html + '<tr>' 
+	size_total = size_total + record['packet size']
+    	html = html + '<td>%s</td>' % size_total
+        html = html + '<td>%s</td>' % record['source address']
+        html = html + '<td>%s</td>' % record['destination port']
         html = html + '</tr>'
     html = html + '</table>'
 
