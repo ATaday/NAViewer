@@ -1,4 +1,5 @@
 import socket, sys, struct
+from time import time
 
 # the above code breaks down the packet into IP Header + TCP Header 
 
@@ -44,9 +45,13 @@ def receiveData():
 	tcph = struct.unpack('!HHLLBBHHH' , tcp_header)
 
 	# parse TCP header
-	destination_port = tcph[1]       
+	destination_port = tcph[1]    
 
-	data =  {
+	# receive time
+	current_time = time()
+
+	data =  {	
+		"time" : current_time,
 		"protocol" : protocol_id,
 		"source address" : source_address,
 		"destination address" : destination_address,
