@@ -34,10 +34,11 @@ def index():
 
     activity = mongo.db.netactivity.find() 
     size_total = 0 
-    html = '<table width="80%"><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
+    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
 
     for record in activity:
         html = html + '<tr>' 
+	html = html + '<td>%s</td>' % record['time']
 	html = html + '<td>%s</td>' % record['protocol']
 	html = html + '<td>%s</td>' % record['source address']
         html = html + '<td>%s</td>' % record['destination address']
