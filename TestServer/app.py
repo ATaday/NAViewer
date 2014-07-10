@@ -102,7 +102,6 @@ def time_sort():
 
 def total_size():	
     	
-    html = ""
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': 'null', 
@@ -112,11 +111,9 @@ def total_size():
     } 
 }] )
     
-    html = html + '%s' % packet_size['result']	
+    html = '%s' % packet_size['result']	
 
-    response = html
-
-    return response
+    return html
 
 @app.route('/saddr_sort', methods=['GET'])
 
@@ -132,17 +129,14 @@ def saddr_sort():
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
     
-    html = html + '%s' % packet_size['result']	
+    html = '%s' % packet_size['result']	
 
-    response = html
-
-    return response
+    return html
 
 @app.route('/daddr_sort', methods=['GET'])
 
 def daddr_sort():	
     
-    html = ""
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$destination address', 
@@ -152,17 +146,13 @@ def daddr_sort():
     } 
 }, { '$sort': { 'TotalSize': -1 } }])
      
-    html = html + '%s' % packet_size['result']	
+    html = '%s' % packet_size['result']	
 
-    response = html
-
-    return response
+    return html
 
 @app.route('/dport_sort', methods=['GET'])
 
 def dport_sort():	
-    
-    html = ""
     	
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -173,11 +163,9 @@ def dport_sort():
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
     
-    html = html + '%s' % packet_size['result']	
+    html = '%s' % packet_size['result']
 
-    response = html
-
-    return response
+    return html
 
 if __name__ == '__main__':
 	app.run(debug=True)
