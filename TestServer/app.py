@@ -55,7 +55,7 @@ def view():
 
 def size_sort():
 
-    activity = mongo.db.netactivity.find({ 'packet size':{"$gt": 1	}}).sort( [('packet size', -1) ] )
+    activity = mongo.db.netactivity.find({ 'packet size':{"$gt": 1 }}).sort( [('packet size', -1) ] )
 
     html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
 
