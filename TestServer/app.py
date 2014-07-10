@@ -35,7 +35,7 @@ def view():
     activity = mongo.db.netactivity.find()
 
     html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
-
+    
     for record in activity:
         html = html + '<tr>' 
 	html = html + '<td>%s</td>' % record['time']
@@ -45,7 +45,7 @@ def view():
 	html = html + '<td>%s</td>' % record['destination port']
         html = html + '<td>%s</td>' % record['packet size']
         html = html + '</tr>'
-    html = html + '</table>'
+    html = html + '</table>' 
 
     response = html
 
@@ -55,7 +55,7 @@ def view():
 
 def size_sort():
 
-    activity = mongo.db.netactivity.find({ 'packet size':{"$gt": 1 }}).sort( [('packet size', -1) ] )
+    activity = mongo.db.netactivity.find({ 'packet size':{"$gt": 1}}).sort( [('packet size', -1) ] )
 
     html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
 
@@ -78,10 +78,9 @@ def size_sort():
 @app.route('/saddr_sort', methods=['GET'])
 
 def saddr_sort():	
-    
-    html = '<table width="80%"><td><u><b>Packet Size</b></u></td>'
     	
-    packet_size = mongo.db.netactivity.aggregate([ { 
+    html = ""
+    packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$source address', 
         'Total Size': { 
@@ -90,10 +89,7 @@ def saddr_sort():
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
     
-    html = html + '<tr>' 
-    html = html + '<td>%s</td>' % packet_size
-    html = html + '</tr>'
-    html = html + '</table>'
+    html = html + '%s' % packet_size['result']	
 
     response = html
 
@@ -103,21 +99,17 @@ def saddr_sort():
 
 def daddr_sort():	
     
-    html = '<table width="80%"><td><u><b>Packet Size</b></u></td>'
-    	
-    packet_size = mongo.db.netactivity.aggregate([ { 
+    html = ""
+    packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$destination address', 
-        'Total Size': { 
+        'TotalSize': { 
             '$sum': "$packet size" 
         }
     } 
-}, { '$sort': { 'Total Size': -1 } }] )
-    
-    html = html + '<tr>' 
-    html = html + '<td>%s</td>' % packet_size
-    html = html + '</tr>'
-    html = html + '</table>'
+}, { '$sort': { 'TotalSize': -1 } }])
+
+    html = html + '%s' % packet_size['result']	
 
     response = html
 
@@ -127,7 +119,7 @@ def daddr_sort():
 
 def dport_sort():	
     
-    html = '<table width="80%"><td><u><b>Packet Size</b></u></td>'
+    html = ""
     	
     packet_size = mongo.db.netactivity.aggregate([ { 
     '$group': { 
@@ -138,10 +130,7 @@ def dport_sort():
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
     
-    html = html + '<tr>' 
-    html = html + '<td>%s</td>' % packet_size
-    html = html + '</tr>'
-    html = html + '</table>'
+    html = html + '%s' % packet_size['result']	
 
     response = html
 
