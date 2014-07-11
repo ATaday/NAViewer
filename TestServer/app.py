@@ -6,7 +6,7 @@ from flask.ext.pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 
-# receiving data to database 
+# receiving all data to database 
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -55,7 +55,7 @@ def view():
 
     return response
 
-# sorting logs by packet size 
+# sorting entire logs by packet size 
 
 @app.route('/size_sort', methods=['GET'])
 
@@ -80,7 +80,7 @@ def size_sort():
 
     return response
 
-# specific time of logs
+# specific time of entire logs
 
 @app.route('/specific_time', methods=['GET'])
 
@@ -105,7 +105,7 @@ def specific_time():
 
     return response
 
-# total packet size of logs
+# total packet size of entire logs
 
 @app.route('/total_size', methods=['GET'])
 
@@ -182,6 +182,82 @@ def dport_size():
 
     return html
 
+# total average size of entire logs
+
+@app.route('/avg_size', methods=['GET'])
+
+def avg_size():	
+    	
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': 'null', 
+        'Total Size': { 
+            '$avg': "$packet size" 
+        }
+    } 
+}] )
+    
+    html = '%s' % packet_size['result']	
+
+    return html
+
+# sorting average size of any source address
+
+@app.route('/saddr_avg', methods=['GET'])
+
+def saddr_avg():	
+    	
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$source address', 
+        'Total Size': { 
+            '$avg': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Total Size': -1 } }])
+    
+    html = '%s' % packet_size['result']	
+
+    return html
+
+# sorting average size of any destination address
+
+@app.route('/daddr_avg', methods=['GET'])
+
+def daddr_avg():	
+    	
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$destination address', 
+        'Total Size': { 
+            '$avg': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Total Size': -1 } }])
+    
+    html = '%s' % packet_size['result']	
+
+    return html
+
+# sorting average size of any destination port
+
+@app.route('/dport_avg', methods=['GET'])
+
+def dport_avg():	
+    	
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$destination port', 
+        'Total Size': { 
+            '$avg': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Total Size': -1 } }])
+    
+    html = '%s' % packet_size['result']	
+
+    return html
+
 # total count of entire logs
 
 @app.route('/total_count', methods=['GET'])
@@ -201,7 +277,7 @@ def total_count():
 
     return html
 
-# total count of any source address
+# sorting count of any source address
 
 @app.route('/saddr_count', methods=['GET'])
 
@@ -220,7 +296,7 @@ def saddr_count():
 
     return html
 
-# total count of any destination address
+# sorting count of any destination address
 
 @app.route('/daddr_count', methods=['GET'])
 
@@ -239,7 +315,7 @@ def daddr_count():
 
     return html
 
-# total count of any destination port
+# sorting count of any destination port
 
 @app.route('/dport_count', methods=['GET'])
 
