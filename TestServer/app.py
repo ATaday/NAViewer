@@ -106,7 +106,6 @@ def size_sort():
 
     return html
 
-
 # total packet size of all logs
 
 @app.route('/total_size', methods=['GET'])
