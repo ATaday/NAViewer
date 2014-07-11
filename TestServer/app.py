@@ -59,19 +59,30 @@ def view():
 
 def size_sort():
 
-    activity = mongo.db.netactivity.find({ 'packet size':{"$gt": 0}}).sort( [('packet size', -1) ] )
+    activity = mongo.db.netactivity.find({'packet size':{"$gt": 0}}).sort( [('packet size', -1) ] )
 
-    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
-
+    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage [% 10000]</b></u></td>'
+  
+    t_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': 'null', 
+        'Total Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}] )
     for record in activity:
-        html = html + '<tr>' 
-	html = html + '<td>%s</td>' % record['time']
-	html = html + '<td>%s</td>' % record['protocol']
-	html = html + '<td>%s</td>' % record['source address']
-        html = html + '<td>%s</td>' % record['destination address']
-	html = html + '<td>%s</td>' % record['destination port']
-        html = html + '<td>%s</td>' % record['packet size']
-        html = html + '</tr>'
+	for record2 in t_size['result']:
+       		html = html + '<tr>' 
+		html = html + '<td>%s</td>' % record['time']
+		html = html + '<td>%s</td>' % record['protocol']
+		html = html + '<td>%s</td>' % record['source address']
+       		html = html + '<td>%s</td>' % record['destination address']
+		html = html + '<td>%s</td>' % record['destination port']
+       		html = html + '<td>%s</td>' % record['packet size']
+		a= 10000*float(record['packet size']) / float(record2['Total Size']) 
+		html = html + '<td>%s</td>' % a 
+       		html = html + '</tr>'
     html = html + '</table>'
 
     response = html
@@ -531,7 +542,7 @@ def dport_per():
     	    html = html + '<tr>'
     	    html = html + '<td>%s</td>' % record['_id']
 	    a= 100*float(record['Packet Size']) / float(record2['Total Size'])       
-	    html = html + '<td>%s</td>'  % a 
+	    html = html + '<td>%s</td>' % a 
     	    html = html + '</tr>'
 
     html = html + '</table>'
