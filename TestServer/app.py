@@ -481,7 +481,7 @@ def daddr_per():
     
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
-        '_id': '$source address', 
+        '_id': '$destination address', 
         'Packet Size': { 
             '$sum': "$packet size" 
         }
@@ -519,7 +519,7 @@ def dport_per():
     
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
-        '_id': '$source address', 
+        '_id': '$destination port', 
         'Packet Size': { 
             '$sum': "$packet size" 
         }
