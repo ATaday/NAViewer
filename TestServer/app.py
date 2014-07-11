@@ -462,7 +462,7 @@ def saddr_per():
 
     return html
 
-# percent size of source address
+# percent size of destination address
 
 @app.route('/daddr_per', methods=['GET'])
 
@@ -500,13 +500,13 @@ def daddr_per():
 
     return html
 
-# percent size of source address
+# percent size of destination port
 
 @app.route('/dport_per', methods=['GET'])
 
 def dport_per():	    	
 
-    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Percentage</b></u></td>'
+    html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Percentage</b></u></td>'
   
     t_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
