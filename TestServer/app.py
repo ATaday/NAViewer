@@ -250,7 +250,7 @@ def daddr_avg():
 
 def dport_avg():	
  	
-    packet_size = mongo.db.netactivity.aggregate( [{ '$group': { '_id': '$destination port', 'Total Average': { '$avg': "$packet size" } } } , { '$sort': { 'Total Average': -1 } } ] )
+    packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': '$destination port', 'Total Average': { '$avg': "$packet size" } } } , { '$sort': { 'Total Average': -1 } } ] )
     
     html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Average Size</b></u></td>'
 
@@ -309,8 +309,7 @@ def saddr_count():
 
 def daddr_count():	
 
-    packet_size = mongo.db.netactivity.aggregate([ { '$group': { '_id': '$destination address', 'Total Count': { '$sum': 1 } } 
-} , { '$sort': { 'Total Count': -1 } } ] )
+    packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': '$destination address', 'Total Count': { '$sum': 1 } } } , { '$sort': { 'Total Count': -1 } } ] )
 
     html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Count</b></u></td>'
     
@@ -330,8 +329,7 @@ def daddr_count():
 
 def dport_count():	
 
-    packet_size = mongo.db.netactivity.aggregate([ { '$group': { '_id': '$destination port', 'Total Count': { '$sum': 1 } } 
-} , { '$sort': { 'Total Count': -1 } } ] )
+    packet_size = mongo.db.netactivity.aggregate([ { '$group': { '_id': '$destination port', 'Total Count': { '$sum': 1 } } } , { '$sort': { 'Total Count': -1 } } ] )
 
     html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Count</b></u></td>'
     
