@@ -87,7 +87,7 @@ def size_sort():
   
     t_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': 'null', 'Total Size': { '$sum': "$packet size" } } } ] )
 
-    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage | % 10000]</b></u></td>'	
+    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage</b></u></td>'	
 
     for record in activity:
 	for record2 in t_size['result']:
@@ -98,7 +98,7 @@ def size_sort():
        		html = html + '<td>%s</td>' % record['destination address']
 		html = html + '<td>%s</td>' % record['destination port']
        		html = html + '<td>%s</td>' % record['packet size']
-		a= 10000*float(record['packet size']) / float(record2['Total Size']) 
+		a= 100*float(record['packet size']) / float(record2['Total Size']) 
 		html = html + '<td>%s</td>' % a 
        		html = html + '</tr>'
 
@@ -152,7 +152,7 @@ def saddr_size():
 
 def daddr_size():	
    
-    packet_size = mongo.db.netactivity.aggregate( [ { '$group' { '_id': '$destination address', 'Total Size' { '$sum': "$packet size" } } } , { '$sort': { 'Total Size': -1 } } ] )
+    packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': '$destination address', 'Total Size': { '$sum': "$packet size" } } } , { '$sort': { 'Total Size': -1 } } ] )
 
     html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Packet Size</b></u></td>'
      
