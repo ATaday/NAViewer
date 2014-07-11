@@ -4,6 +4,7 @@ from flask import Flask, request
 from flask.ext.pymongo import PyMongo
 
 app = Flask(__name__)
+
 mongo = PyMongo(app)
 
 # receiving all data to database 
