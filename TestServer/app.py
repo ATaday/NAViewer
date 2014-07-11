@@ -140,7 +140,7 @@ def total_size():
 
     return html
 
-# sorting packet size of any source address
+# sorting packet size of source address
 
 @app.route('/saddr_size', methods=['GET'])
 
@@ -167,7 +167,7 @@ def saddr_size():
 
     return html
 
-# sorting packet size of any destination address
+# sorting packet size of destination address
 
 @app.route('/daddr_size', methods=['GET'])
 
@@ -194,7 +194,7 @@ def daddr_size():
 
     return html
 
-# sorting packet size of any destination port
+# sorting packet size of destination port
 
 @app.route('/dport_size', methods=['GET'])
 
@@ -247,7 +247,7 @@ def avg_size():
 
     return html
 
-# sorting average size of any source address
+# sorting average size of source address
 
 @app.route('/saddr_avg', methods=['GET'])
 
@@ -274,7 +274,7 @@ def saddr_avg():
 
     return html
 
-# sorting average size of any destination address
+# sorting average size of destination address
 
 @app.route('/daddr_avg', methods=['GET'])
 
@@ -301,7 +301,7 @@ def daddr_avg():
 
     return html
 
-# sorting average size of any destination port
+# sorting average size of destination port
 
 @app.route('/dport_avg', methods=['GET'])
 
@@ -354,7 +354,7 @@ def total_count():
 
     return html
 
-# sorting count of any source address
+# sorting count of source address
 
 @app.route('/saddr_count', methods=['GET'])
 
@@ -381,7 +381,7 @@ def saddr_count():
 
     return html
 
-# sorting count of any destination address
+# sorting count of destination address
 
 @app.route('/daddr_count', methods=['GET'])
 
@@ -408,7 +408,7 @@ def daddr_count():
 
     return html
 
-# sorting count of any destination port
+# sorting count of destination port
 
 @app.route('/dport_count', methods=['GET'])
 
