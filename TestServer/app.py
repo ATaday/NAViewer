@@ -6,6 +6,8 @@ from flask.ext.pymongo import PyMongo
 app = Flask(__name__)
 mongo = PyMongo(app)
 
+# receiving data to database 
+
 @app.route('/', methods=['GET', 'POST'])
 
 def saveData():
@@ -27,6 +29,8 @@ def saveData():
         """
 
     return response
+
+# view of entire logs
 
 @app.route('/view', methods=['GET'])
 
@@ -51,6 +55,7 @@ def view():
 
     return response
 
+# sorting logs by packet size 
 
 @app.route('/size_sort', methods=['GET'])
 
@@ -75,6 +80,8 @@ def size_sort():
 
     return response
 
+# specific time of logs
+
 @app.route('/time_sort', methods=['GET'])
 
 def time_sort():
@@ -98,6 +105,8 @@ def time_sort():
 
     return response
 
+# total packet size of logs
+
 @app.route('/total_size', methods=['GET'])
 
 def total_size():	
@@ -114,6 +123,8 @@ def total_size():
     html = '%s' % packet_size['result']	
 
     return html
+
+# sorting total packet size of any source address
 
 @app.route('/saddr_sort', methods=['GET'])
 
@@ -133,6 +144,8 @@ def saddr_sort():
 
     return html
 
+# sorting total packet size of any destination address
+
 @app.route('/daddr_sort', methods=['GET'])
 
 def daddr_sort():	
@@ -149,6 +162,8 @@ def daddr_sort():
     html = '%s' % packet_size['result']	
 
     return html
+
+# sorting total packet size of any destination port
 
 @app.route('/dport_sort', methods=['GET'])
 
