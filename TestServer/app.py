@@ -270,7 +270,7 @@ def dport_avg():
 
 def total_count():	
 
-    packet_size = mongo.db.netactivity.aggregate( [ { '$group':{ '_id': 'null', 'Total Count': { '$sum': 1 } } } ] )
+    packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': 'null', 'Total Count': { '$sum': 1 } } } ] )
     
     html = '<table width="80%"><td><u><b>Total Count</b></u></td>'
 	
@@ -329,7 +329,7 @@ def daddr_count():
 
 def dport_count():	
 
-    packet_size = mongo.db.netactivity.aggregate([ { '$group': { '_id': '$destination port', 'Total Count': { '$sum': 1 } } } , { '$sort': { 'Total Count': -1 } } ] )
+    packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': '$destination port', 'Total Count': { '$sum': 1 } } } , { '$sort': { 'Total Count': -1 } } ] )
 
     html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Count</b></u></td>'
     
