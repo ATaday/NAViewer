@@ -24,9 +24,7 @@ def saveData():
 
         print "GET"
 
-        response = """
-        <p>This URL is reserved for posting data from clients.</p>
-        """
+        response = """<p>This URL is reserved for posting data from clients.</p>"""
 
     return response
 
