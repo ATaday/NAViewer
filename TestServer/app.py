@@ -424,7 +424,7 @@ def dport_count():
 
     return html
 
-# percent size of source address
+# sorting percent size of source address
 
 @app.route('/saddr_per', methods=['GET'])
 
@@ -462,7 +462,7 @@ def saddr_per():
 
     return html
 
-# percent size of destination address
+# sorting percent size of destination address
 
 @app.route('/daddr_per', methods=['GET'])
 
@@ -500,7 +500,7 @@ def daddr_per():
 
     return html
 
-# percent size of destination port
+# sorting percent size of destination port
 
 @app.route('/dport_per', methods=['GET'])
 
@@ -531,7 +531,7 @@ def dport_per():
     	    html = html + '<tr>'
     	    html = html + '<td>%s</td>' % record['_id']
 	    a= 100*float(record['Packet Size']) / float(record2['Total Size'])       
-	    html = html + '<td>%s</td>' % a
+	    html = html + '<td>%s</td>'  % a 
     	    html = html + '</tr>'
 
     html = html + '</table>'
