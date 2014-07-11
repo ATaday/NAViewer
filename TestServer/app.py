@@ -82,9 +82,9 @@ def size_sort():
 
 # specific time of logs
 
-@app.route('/time_sort', methods=['GET'])
+@app.route('/specific_time', methods=['GET'])
 
-def time_sort():
+def specific_time():
 
     activity = mongo.db.netactivity.find({ 'time':{"$gt": 1405001664.18 , "$lt": 1405001855.31}})
 
@@ -126,9 +126,9 @@ def total_size():
 
 # sorting total packet size of any source address
 
-@app.route('/saddr_sort', methods=['GET'])
+@app.route('/saddr_size', methods=['GET'])
 
-def saddr_sort():	
+def saddr_size():	
     	
     html = ""
     packet_size = mongo.db.netactivity.aggregate( [{ 
@@ -146,9 +146,9 @@ def saddr_sort():
 
 # sorting total packet size of any destination address
 
-@app.route('/daddr_sort', methods=['GET'])
+@app.route('/daddr_size', methods=['GET'])
 
-def daddr_sort():	
+def daddr_size():	
     
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
@@ -165,9 +165,9 @@ def daddr_sort():
 
 # sorting total packet size of any destination port
 
-@app.route('/dport_sort', methods=['GET'])
+@app.route('/dport_size', methods=['GET'])
 
-def dport_sort():	
+def dport_size():	
     	
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -177,6 +177,82 @@ def dport_sort():
         }
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
+    
+    html = '%s' % packet_size['result']
+
+    return html
+
+# total count of entire logs
+
+@app.route('/total_count', methods=['GET'])
+
+def total_count():	
+
+    packet_size = mongo.db.netactivity.aggregate([ {   
+       '$group': {
+	 '_id': 'null', 
+        'Total Count': { 
+            '$sum': 1 
+        }
+    } 
+} ] )
+    
+    html = '%s' % packet_size['result']
+
+    return html
+
+# total count of any source address
+
+@app.route('/saddr_count', methods=['GET'])
+
+def saddr_count():	
+
+    packet_size = mongo.db.netactivity.aggregate([ {   
+       '$group': {
+	 '_id': '$source address', 
+        'Total Count': { 
+            '$sum': 1 
+        }
+    } 
+}, { '$sort': { 'Total Count': -1 } } ] )
+    
+    html = '%s' % packet_size['result']
+
+    return html
+
+# total count of any destination address
+
+@app.route('/daddr_count', methods=['GET'])
+
+def daddr_count():	
+
+    packet_size = mongo.db.netactivity.aggregate([ {   
+       '$group': {
+	 '_id': '$destination address', 
+        'Total Count': { 
+            '$sum': 1 
+        }
+    } 
+}, { '$sort': { 'Total Count': -1 } } ] )
+    
+    html = '%s' % packet_size['result']
+
+    return html
+
+# total count of any destination port
+
+@app.route('/dport_count', methods=['GET'])
+
+def dport_count():	
+
+    packet_size = mongo.db.netactivity.aggregate([ {   
+       '$group': {
+	 '_id': '$destination port', 
+        'Total Count': { 
+            '$sum': 1 
+        }
+    } 
+}, { '$sort': { 'Total Count': -1 } } ] )
     
     html = '%s' % packet_size['result']
 
