@@ -185,7 +185,7 @@ def dport_size():
 
     return html
 
-# total average of size of all logs
+# total average size of all logs
 
 @app.route('/avg_size', methods=['GET'])
 
@@ -204,7 +204,7 @@ def avg_size():
 
     return html
 
-# sorting average of size of source address
+# sorting average size of source address
 
 @app.route('/saddr_avg', methods=['GET'])
 
@@ -244,7 +244,7 @@ def daddr_avg():
 
     return html
 
-# sorting average of size of destination port
+# sorting average size of destination port
 
 @app.route('/dport_avg', methods=['GET'])
 
