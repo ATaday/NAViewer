@@ -424,5 +424,120 @@ def dport_count():
 
     return html
 
+# percent size of source address
+
+@app.route('/saddr_per', methods=['GET'])
+
+def saddr_per():	    	
+
+    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Percentage</b></u></td>'
+  
+    t_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': 'null', 
+        'Total Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}] )
+    
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$source address', 
+        'Packet Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Packet Size': -1 } }] )
+ 
+    for record in packet_size['result']:
+	for record2 in t_size['result']:
+    	    html = html + '<tr>'
+    	    html = html + '<td>%s</td>' % record['_id']
+	    a= 100*float(record['Packet Size']) / float(record2['Total Size'])       
+	    html = html + '<td>%s</td>' % a
+    	    html = html + '</tr>'
+
+    html = html + '</table>'
+
+    return html
+
+# percent size of source address
+
+@app.route('/daddr_per', methods=['GET'])
+
+def daddr_per():	    	
+
+    html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Percentage</b></u></td>'
+  
+    t_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': 'null', 
+        'Total Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}] )
+    
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$source address', 
+        'Packet Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Packet Size': -1 } }] )
+ 
+    for record in packet_size['result']:
+	for record2 in t_size['result']:
+    	    html = html + '<tr>'
+    	    html = html + '<td>%s</td>' % record['_id']
+	    a= 100*float(record['Packet Size']) / float(record2['Total Size'])       
+	    html = html + '<td>%s</td>' % a
+    	    html = html + '</tr>'
+
+    html = html + '</table>'
+
+    return html
+
+# percent size of source address
+
+@app.route('/dport_per', methods=['GET'])
+
+def dport_per():	    	
+
+    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Percentage</b></u></td>'
+  
+    t_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': 'null', 
+        'Total Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}] )
+    
+    packet_size = mongo.db.netactivity.aggregate( [{ 
+    '$group': { 
+        '_id': '$source address', 
+        'Packet Size': { 
+            '$sum': "$packet size" 
+        }
+    } 
+}, { '$sort': { 'Packet Size': -1 } }] )
+ 
+    for record in packet_size['result']:
+	for record2 in t_size['result']:
+    	    html = html + '<tr>'
+    	    html = html + '<td>%s</td>' % record['_id']
+	    a= 100*float(record['Packet Size']) / float(record2['Total Size'])       
+	    html = html + '<td>%s</td>' % a
+    	    html = html + '</tr>'
+
+    html = html + '</table>'
+
+    return html
+
+
 if __name__ == '__main__':
 	app.run(debug=True)
