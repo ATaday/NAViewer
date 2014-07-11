@@ -109,8 +109,10 @@ def specific_time():
 
 @app.route('/total_size', methods=['GET'])
 
-def total_size():	
-    	
+def total_size():	    	
+
+    html = '<table width="80%"><td><u><b>Total Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': 'null', 
@@ -120,17 +122,23 @@ def total_size():
     } 
 }] )
     
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['Total Size']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
-# sorting total packet size of any source address
+# sorting packet size of any source address
 
 @app.route('/saddr_size', methods=['GET'])
 
 def saddr_size():	
     	
-    html = ""
+    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Packet Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$source address', 
@@ -139,36 +147,52 @@ def saddr_size():
         }
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
-    
-    html = '%s' % packet_size['result']	
+ 
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Size']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
-# sorting total packet size of any destination address
+# sorting packet size of any destination address
 
 @app.route('/daddr_size', methods=['GET'])
 
 def daddr_size():	
     
+    html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Packet Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$destination address', 
-        'TotalSize': { 
+        'Total Size': { 
             '$sum': "$packet size" 
         }
     } 
-}, { '$sort': { 'TotalSize': -1 } }])
+}, { '$sort': { 'Total Size': -1 } }])
      
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Size']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
-# sorting total packet size of any destination port
+# sorting packet size of any destination port
 
 @app.route('/dport_size', methods=['GET'])
 
 def dport_size():	
     	
+    html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
 	 '_id': '$destination port', 
@@ -178,7 +202,13 @@ def dport_size():
     } 
 }, { '$sort': { 'Total Size': -1 } }] )
     
-    html = '%s' % packet_size['result']
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Size']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -187,17 +217,24 @@ def dport_size():
 @app.route('/avg_size', methods=['GET'])
 
 def avg_size():	
+
+    html = '<table width="80%"><td><u><b>Total Average Size</b></u></td>'
     	
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': 'null', 
-        'Total Size': { 
+        'Total Average': { 
             '$avg': "$packet size" 
         }
     } 
 }] )
     
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['Total Average']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -207,16 +244,24 @@ def avg_size():
 
 def saddr_avg():	
     	
+    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Average Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$source address', 
-        'Total Size': { 
+        'Total Average': { 
             '$avg': "$packet size" 
         }
     } 
-}, { '$sort': { 'Total Size': -1 } }])
+}, { '$sort': { 'Total Average': -1 } }])
     
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Average']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -226,16 +271,24 @@ def saddr_avg():
 
 def daddr_avg():	
     	
+    html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Average Size</b></u></td>'
+
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$destination address', 
-        'Total Size': { 
+        'Total Average': { 
             '$avg': "$packet size" 
         }
     } 
-}, { '$sort': { 'Total Size': -1 } }])
+}, { '$sort': { 'Total Average': -1 } }])
     
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Average']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -244,17 +297,25 @@ def daddr_avg():
 @app.route('/dport_avg', methods=['GET'])
 
 def dport_avg():	
+
+    html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Average Size</b></u></td>'
     	
     packet_size = mongo.db.netactivity.aggregate( [{ 
     '$group': { 
         '_id': '$destination port', 
-        'Total Size': { 
+        'Total Average': { 
             '$avg': "$packet size" 
         }
     } 
-}, { '$sort': { 'Total Size': -1 } }])
+}, { '$sort': { 'Total Average': -1 } }])
     
-    html = '%s' % packet_size['result']	
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Average']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -263,6 +324,8 @@ def dport_avg():
 @app.route('/total_count', methods=['GET'])
 
 def total_count():	
+
+    html = '<table width="80%"><td><u><b>Total Count</b></u></td>'
 
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -273,7 +336,12 @@ def total_count():
     } 
 } ] )
     
-    html = '%s' % packet_size['result']
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['Total Count']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -282,6 +350,8 @@ def total_count():
 @app.route('/saddr_count', methods=['GET'])
 
 def saddr_count():	
+
+    html = '<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Count</b></u></td>'
 
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -292,7 +362,13 @@ def saddr_count():
     } 
 }, { '$sort': { 'Total Count': -1 } } ] )
     
-    html = '%s' % packet_size['result']
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Count']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -301,6 +377,8 @@ def saddr_count():
 @app.route('/daddr_count', methods=['GET'])
 
 def daddr_count():	
+
+    html = '<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Count</b></u></td>'
 
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -311,7 +389,13 @@ def daddr_count():
     } 
 }, { '$sort': { 'Total Count': -1 } } ] )
     
-    html = '%s' % packet_size['result']
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Count']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
@@ -320,6 +404,8 @@ def daddr_count():
 @app.route('/dport_count', methods=['GET'])
 
 def dport_count():	
+
+    html = '<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Count</b></u></td>'
 
     packet_size = mongo.db.netactivity.aggregate([ {   
        '$group': {
@@ -330,7 +416,13 @@ def dport_count():
     } 
 }, { '$sort': { 'Total Count': -1 } } ] )
     
-    html = '%s' % packet_size['result']
+    for record in packet_size['result']:
+        html = html + '<tr>'
+        html = html + '<td>%s</td>' % record['_id']
+        html = html + '<td>%s</td>' % record['Total Count']
+        html = html + '</tr>'
+
+    html = html + '</table>'
 
     return html
 
