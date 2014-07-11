@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 mongo = PyMongo(app)
 
-# receiving all data to database 
+# saving all data to database 
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -29,7 +29,7 @@ def saveData():
 
     return response
 
-# view of entire logs
+# view of all logs
 
 @app.route('/view', methods=['GET'])
 
@@ -53,7 +53,31 @@ def view():
 
     return html
 
-# sorting entire logs by packet size 
+# specific time of all logs
+
+@app.route('/specific_time', methods=['GET'])
+
+def specific_time():
+
+    activity = mongo.db.netactivity.find( { 'time': { "$gt": 1405001664.18 , "$lt": 1405001855.31 } } )
+
+    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
+    
+    for record in activity:
+        html = html + '<tr>' 
+	html = html + '<td>%s</td>' % record['time']
+	html = html + '<td>%s</td>' % record['protocol']
+	html = html + '<td>%s</td>' % record['source address']
+        html = html + '<td>%s</td>' % record['destination address']
+	html = html + '<td>%s</td>' % record['destination port']
+        html = html + '<td>%s</td>' % record['packet size']
+        html = html + '</tr>'
+
+    html = html + '</table>' 
+
+    return html
+
+# sorting all logs as packet size 
 
 @app.route('/size_sort', methods=['GET'])
 
@@ -82,31 +106,8 @@ def size_sort():
 
     return html
 
-# specific time of entire logs
 
-@app.route('/specific_time', methods=['GET'])
-
-def specific_time():
-
-    activity = mongo.db.netactivity.find( { 'time': { "$gt": 1405001664.18 , "$lt": 1405001855.31 } } )
-
-    html = '<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>'
-    
-    for record in activity:
-        html = html + '<tr>' 
-	html = html + '<td>%s</td>' % record['time']
-	html = html + '<td>%s</td>' % record['protocol']
-	html = html + '<td>%s</td>' % record['source address']
-        html = html + '<td>%s</td>' % record['destination address']
-	html = html + '<td>%s</td>' % record['destination port']
-        html = html + '<td>%s</td>' % record['packet size']
-        html = html + '</tr>'
-
-    html = html + '</table>' 
-
-    return html
-
-# total packet size of entire logs
+# total packet size of all logs
 
 @app.route('/total_size', methods=['GET'])
 
@@ -185,7 +186,7 @@ def dport_size():
 
     return html
 
-# total average size of entire logs
+# total average of size of all logs
 
 @app.route('/avg_size', methods=['GET'])
 
@@ -204,7 +205,7 @@ def avg_size():
 
     return html
 
-# sorting average size of source address
+# sorting average of size of source address
 
 @app.route('/saddr_avg', methods=['GET'])
 
@@ -244,7 +245,7 @@ def daddr_avg():
 
     return html
 
-# sorting average size of destination port
+# sorting average of size of destination port
 
 @app.route('/dport_avg', methods=['GET'])
 
@@ -264,7 +265,7 @@ def dport_avg():
 
     return html
 
-# total count of entire logs
+# total count of all logs
 
 @app.route('/total_count', methods=['GET'])
 
