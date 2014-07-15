@@ -38,9 +38,9 @@ def view():
 
     activity = mongo.db.netactivity.find()
 
-    log = [record['time'] for record in activity]
+    log = [record for record in activity]
 
-    return render_template('hello.html', records=log)
+    return render_template('view.html', records=log)
 
 if __name__ == '__main__':
 	app.run(debug=True)
