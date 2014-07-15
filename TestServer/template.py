@@ -42,5 +42,17 @@ def view():
 
     return render_template('view.html', records=log)
 
+# specific time of all logs
+
+@app.route('/specific_time', methods=['GET'])
+
+def specific_time():
+
+    activity = mongo.db.netactivity.find( { 'time': { "$gt": 1405434044.88 , "$lt": 1405434167.98 } } )
+    
+    log = [record for record in activity]
+
+    return render_template('specific_time.html', records=log)
+
 if __name__ == '__main__':
 	app.run(debug=True)
