@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import jinja2
 import json
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask.ext.pymongo import PyMongo
 
 app = Flask(__name__)
 
 mongo = PyMongo(app)
 
-# saving all data to database 
+# saving all data to database
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -37,15 +37,10 @@ def saveData():
 def view():
 
     activity = mongo.db.netactivity.find()
-	
-    template = jinja2.Template("""{% for record in records %}
-			          {{ record }}
-				  {% endfor %}""")
 
     log = [record['time'] for record in activity]
-    result = template.render(records=log) 
 
-    return result
+    return render_template('hello.html', records=log)
 
 if __name__ == '__main__':
 	app.run(debug=True)
