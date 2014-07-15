@@ -46,3 +46,6 @@ def view():
     result = template.render(records=log) 
 
     return result
+
+if __name__ == '__main__':
+	app.run(debug=True)
