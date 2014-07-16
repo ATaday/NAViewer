@@ -119,15 +119,15 @@ def dport_size():
 
 # total average size of all logs
 
-@app.route('/avg_size', methods=['GET'])
+@app.route('/total_avg', methods=['GET'])
 
-def avg_size():	
+def total_avg():	
     	
     packet_size = mongo.db.netactivity.aggregate( [ { '$group': { '_id': 'null', 'Total Average': { '$avg': "$packet size" } } } ] )
     
     log = [record for record in packet_size['result']]    
 
-    return render_template('avg_size.html', records=log)
+    return render_template('total_avg.html', records=log)
 
 # sorting average size of source address
 
