@@ -1,0 +1,14 @@
+<!doctype html>
+<title>Sorting All Logs as Packet Size</title>
+<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage</b></u></td>
+{% for record in records %}
+<tr>
+<td>{{ record['time'] }}</td>
+<td>{{ record['protocol'] }}</td>
+<td>{{ record['source address'] }}</td>
+<td>{{ record['destination address'] }}</td>
+<td>{{ record['destination port'] }}</td>
+<td>{{ record['packet size'] }}</td>
+</tr>
+{% endfor %}
+</table>
