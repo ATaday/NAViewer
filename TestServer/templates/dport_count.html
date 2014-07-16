@@ -1,0 +1,10 @@
+<!doctype html>
+<title>Sorting Count of Destination Port</title>
+<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>
+{% for record in records %}
+<tr>
+<td>{{ record['_id'] }}</td>
+<td>{{ record['Total Count'] }}</td>
+</tr>
+{% endfor %}
+</table>
