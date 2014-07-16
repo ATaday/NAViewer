@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Total Size of All Logs</title>
+<table width="80%"><td><u><b>Total Size</b></u></td>
+{% for record in records %}
+<tr>
+<td>{{ record['Total Size'] }}</td>
+</tr>
+{% endfor %}
+</table>
