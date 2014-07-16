@@ -102,8 +102,7 @@ def daddr_size():
 
     log = [record for record in packet_size['result']]    
 
-    return render_template('daddr_size.html', records=log)
-    
+    return render_template('daddr_size.html', records=log)   
 
 # sorting packet size of destination port
 
