@@ -1,10 +1,13 @@
 <!doctype html>
 <title>Sorting Packet Size of Source Address</title>
-<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Packet Size</b></u></td>
+<table width="80%"><td><u><b>Source Address</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage</b></u></td>
 {% for record in records %}
 <tr>
 <td>{{ record['_id'] }}</td>
-<td>{{ record['Total Size'] }}</td>
-</tr>
+<td>{{ record['SAddr Size'] }}</td>
+{% for record_per in records_per %}
+<td>{{ 100*record['SAddr Size'] / record_per['Total Size'] }}</td>
 {% endfor %}
+{% endfor %}
+</tr>
 </table>
