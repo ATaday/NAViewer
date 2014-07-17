@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 @app.route('/', methods=['GET', 'POST'])
 
-def saveData():
+def save_data():
 
     if request.method == 'POST':
 
