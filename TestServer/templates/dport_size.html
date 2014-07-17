@@ -1,10 +1,13 @@
 <!doctype html>
 <title>Sorting Packet Size of Destination Port</title>
-<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>
+<table width="80%"><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td><td><u><b>Percentage</b></u></td>
 {% for record in records %}
 <tr>
 <td>{{ record['_id'] }}</td>
-<td>{{ record['Total Size'] }}</td>
-</tr>
+<td>{{ record['DPort Size'] }}</td>
+{% for record_per in records_per %}
+<td>{{ 100*record['DPort Size'] / record_per['Total Size'] }}</td>
 {% endfor %}
+{% endfor %}
+</tr>
 </table>
