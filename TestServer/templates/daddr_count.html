@@ -1,10 +1,13 @@
 <!doctype html>
 <title>Sorting Count of Destination Address</title>
-<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Packet Size</b></u></td>
+<table width="80%"><td><u><b>Destination Address</b></u></td><td><u><b>Count</b></u></td><td><u><b>Percentage</b></u></td>
 {% for record in records %}
 <tr>
 <td>{{ record['_id'] }}</td>
-<td>{{ record['Total Count'] }}</td>
-</tr>
+<td>{{ record['DAddr Count'] }}</td>
+{% for record_per in records_per %}
+<td>{{ 100*record['DAddr Count'] / record_per['Total Count'] }}</td>
 {% endfor %}
+{% endfor %}
+</tr>
 </table>
