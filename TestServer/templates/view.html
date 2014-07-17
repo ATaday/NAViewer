@@ -1,6 +1,6 @@
 <!doctype html>
 <title>View of All Logs</title>
-<table width="80%">
+<table width="80%"><td><u><b>Time</b></u></td><td><u><b>Protocol</b></u></td><td><u><b>Source Address</b></u></td><td><u><b>Destination Address</b></u></td><td><u><b>Destination Port</b></u></td><td><u><b>Packet Size</b></u></td>
 {% for record in records %}
 <tr>
 <td>{{ record['time'] }}</td>
