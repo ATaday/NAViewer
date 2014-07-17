@@ -9,6 +9,9 @@
 <td>{{ record['destination address'] }}</td>
 <td>{{ record['destination port'] }}</td>
 <td>{{ record['packet size'] }}</td>
-</tr>
+{% for record_per in records_per %}
+<td>{{ 100*record['packet size'] / record_per['Total Size'] }}</td>
 {% endfor %}
+{% endfor %}
+</tr>
 </table>
