@@ -37,7 +37,6 @@ def receiveData():
 	elif protocol_number == 17:
 		protocol_id = 'UDP'
 
-	
 	# take first 20 characters for the tcp header
 	tcp_header = packet[20:40]
 	
